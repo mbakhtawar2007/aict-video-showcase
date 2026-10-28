@@ -125,6 +125,79 @@ code {
   gap: var(--space-2);
 }
 
+/* Phase 1 forms — plain, high-contrast, token-based. */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.form label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--surface-border);
+  background: var(--bg-dark);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.form input:focus {
+  outline: 2px solid var(--primary-cyan);
+  outline-offset: 2px;
+}
+
+.button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    90deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.notice {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-input);
+  padding: var(--space-3);
+  background: var(--surface);
+}
+
+.notice.error {
+  border-color: var(--error);
+}
+
+.notice.success {
+  border-color: var(--success);
+}
+
+.link-row {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.link-row a {
+  color: var(--primary-cyan);
+}
+
 /*
  * Reduced motion — Spec §7.10 / §7.0 Tier 1.
  * Keep only simple fades; disable parallax, tilt, marquee, confetti

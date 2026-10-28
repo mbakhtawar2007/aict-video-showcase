@@ -2,13 +2,17 @@ export default function HomePage() {
   return (
     <main className="page">
       <section className="hero">
-        <p className="eyebrow">AICT &middot; Phase 0</p>
+        <p className="eyebrow">AICT &middot; Phase 1</p>
         <h1>AI Video Showcase &amp; Voting</h1>
         <p className="gradient-text">Cinematic. Animated. Class-only.</p>
         <p className="lede">
-          This is the Phase 0 scaffold only. There is no sign-in, upload,
-          gallery, voting, or live database yet. Those arrive in Phase 1
-          and later, phase by phase.
+          Phase 1 adds student sign-in (passwordless email code),
+          onboarding and profile pages — locally only for now, until
+          the new AICT Supabase project is connected. Upload, gallery
+          and voting arrive in later phases.
+        </p>
+        <p>
+          <a href="/login">Sign in with your university email</a>
         </p>
       </section>
 
@@ -24,8 +28,10 @@ export default function HomePage() {
             no subdomains, no <code>+tag</code> aliases.
           </li>
           <li>
-            Teachers / admins: <code>email_allowlist</code> only, role{" "}
-            <code>admin</code>, never self-service. Roster mode OFF.
+            Teachers / admins: SKIPPED FOR NOW (2026-10-28 decision).
+            No teacher rows are seeded in Phase 1; teacher/admin
+            accounts are added later when real emails arrive. Roster
+            mode OFF.
           </li>
           <li>
             Video: Supabase Storage free tier, MP4 (H.264) only, &le; 50 MB
