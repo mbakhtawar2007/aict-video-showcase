@@ -128,6 +128,57 @@ outputs and honest limits.
   `lib/email.ts` student-domain rules, covered by
   `scripts/test-email-rules.mjs` (14 tests).
 
+## Phase 2 scope (built locally, on top of Phase 1 + UI pass)
+
+Per spec §4.1, §4.3 and §5.2, with the LOCKED free-video delta
+in place of Stream. See `PHASE2-REPORT.md` for the full file
+list, verification outputs and honest limits.
+
+- Migration `0003_projects.sql`: `groups`, `group_members`,
+  `projects` (with `video_path`, NOT `video_uid`;
+  `video_status` none/uploading/processing/ready/failed
+  default none; `video_size_bytes`, `duration_seconds`,
+  `thumbnail_path`, `status` draft/published/hidden default
+  draft, `rules_accepted_at`, `vote_count`, `view_count`,
+  `CHECK (status <> 'published' OR video_status = 'ready')`),
+  `characters` (project cascade, image_path field only),
+  `captions` (project cascade, language/label + `vtt_path`
+  addition — the spec's captions table has no VTT path column,
+  but the delta's uploaded VTT files need one). RLS per §4.3:
+  published visible to signed-in browsers, owner/group members
+  see own drafts, admin sees all; owner/group members
+  insert/update/delete own and cannot publish unless ready;
+  admin can hide any; characters/captions follow the parent
+  project. Indexes `projects(status, created_at)` and
+  `projects(vote_count DESC, last_vote_at ASC)`. Private
+  `videos` bucket insert included. **NOT run against any live
+  database.**
+- Upload wizard at `/upload` (authenticated only, redirect to
+  `/login` on 401): Details → Video → Characters → Review +
+  rules confirmation. Video step enforces MP4 (H.264) only,
+  ≤ 50 MB, ≤ 2 min, with ≤ 20 MB / 720p guidance and the locked
+  rejection message; no playback in the wizard (Phase 3).
+  Save flow: draft → signed upload URL → PUT → complete-upload
+  validation → `ready`/`failed`.
+- Server validation in `lib/video.ts` (pure, tested): MIME,
+  extension, ftyp magic bytes (MOV/HEVC/WebM rejected),
+  size and duration caps, storage counter (warn 80%, block
+  100% of 1 GB). Duration caveat: client-supplied duration is
+  checked, not server-proven — a server-side duration parse is
+  still to be added.
+- API routes: `POST/GET /api/projects`, `GET/PATCH/DELETE
+  /api/projects/[id]` (publish blocked unless ready),
+  `POST /api/projects/[id]/upload-url` (signed URL, path
+  derived from the project id only), `POST
+  /api/projects/[id]/complete-upload` (never marks ready
+  without a real file), `GET /api/groups` (wizard selection),
+  `GET /api/storage-usage`. All return `configured:false`
+  under placeholder env, never a fake success.
+- Dashboard at `/dashboard` (authenticated only): stats,
+  project list with status badges, edit/delete, storage bar.
+- No new dependencies, no auth/domain change, no hosting
+  config change, no push, no deploy.
+
 ## UI pass (local only, on top of Phase 1)
 
 See `UI-REPORT.md`. Shared Navbar + Footer, `next/font` Space

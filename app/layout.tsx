@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "AICT AI Video Showcase",
   description:
-    "AICT AI Video Showcase & Voting Website. Phase 1: passwordless sign-in, onboarding and profile for @duet.edu.pk.",
+    "AICT AI Video Showcase & Voting Website. Phase 2: projects, upload wizard and dashboard on top of passwordless sign-in for @duet.edu.pk.",
 };
 
 export default function RootLayout({
@@ -37,6 +37,8 @@ export default function RootLayout({
             </Link>
             <nav className="nav-links" aria-label="Main">
               <Link href="/">Home</Link>
+              <Link href="/upload">Upload</Link>
+              <Link href="/dashboard">Dashboard</Link>
               <Link href="/login">Sign in</Link>
               <Link href="/profile">Profile</Link>
             </nav>
@@ -47,8 +49,8 @@ export default function RootLayout({
           <div className="footer-inner">
             <p className="footer-title">AICT AI Video Showcase</p>
             <p className="footer-note">
-              Phase 1 — sign-in, onboarding and profile only. Upload,
-              gallery and voting arrive in later phases.
+              Phase 2 — sign-in, projects, upload wizard and dashboard.
+              Gallery, playback and voting arrive in later phases.
             </p>
             <p className="footer-links">
               <a href="https://github.com/mbakhtawar2007/aict-video-showcase">

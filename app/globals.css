@@ -507,6 +507,125 @@ code {
   max-width: 820px;
 }
 
+/* ---- Phase 2: stepper, badges, storage bar, project list ---- */
+
+.stepper {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.stepper-step button {
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.stepper-step.stepper-current button {
+  border-color: var(--primary-cyan);
+  color: var(--primary-cyan);
+}
+
+.stepper-step.stepper-done button {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.badge-published {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.badge-draft {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.badge-hidden {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.badge-video-ready {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.badge-video-failed {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.storage-bar {
+  height: 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.storage-bar-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+}
+
+.storage-bar-fill.storage-bar-warn {
+  background: var(--warning);
+}
+
+.storage-bar-fill.storage-bar-full {
+  background: var(--error);
+}
+
+.project-list {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.project-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: var(--space-4);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+}
+
+.project-row p {
+  margin: var(--space-1) 0 0;
+}
+
 /* ---- Forms (Phase 1, logic unchanged) ---- */
 
 .form {
