@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens — Spec v1.1 §6.2 ("Cinematic Neon Studio").
+ * Dark-first. Never pure-white text on pure-black:
+ * off-white #EDEDF5 on #0B0B14.
+ */
+:root {
+  --bg-dark: #0b0b14;
+  --bg-light: #f7f7fb;
+  --ink: #ededf5;
+  --surface: rgba(255, 255, 255, 0.06);
+  --surface-border: rgba(255, 255, 255, 0.12);
+  --primary-violet: #7c3aed;
+  --primary-cyan: #22d3ee;
+  --vote: #ff3d81;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --radius-input: 12px;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+
+  /* Spacing scale, 4px base: 4, 8, 12, 16, 24, 32, 48, 64 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-dark);
+  color: var(--ink);
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+h1,
+h2 {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  line-height: 1.15;
+}
+
+code {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 6px;
+  padding: 1px 6px;
+  overflow-wrap: anywhere;
+}
+
+/* Phase 0 placeholder page only — replaced by real pages in later phases. */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.gradient-text {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  background: linear-gradient(
+    90deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  margin: 0;
+  font-size: 17px;
+  opacity: 0.9;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+}
+
+.card ul {
+  margin: var(--space-3) 0 0;
+  padding-left: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/*
+ * Reduced motion — Spec §7.10 / §7.0 Tier 1.
+ * Keep only simple fades; disable parallax, tilt, marquee, confetti
+ * and long transitions under prefers-reduced-motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
