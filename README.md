@@ -128,6 +128,18 @@ outputs and honest limits.
   `lib/email.ts` student-domain rules, covered by
   `scripts/test-email-rules.mjs` (14 tests).
 
+## UI pass (local only, on top of Phase 1)
+
+See `UI-REPORT.md`. Shared Navbar + Footer, `next/font` Space
+Grotesk + Inter, a cinematic home hero with How-it-works and a
+clearly-marked Coming-soon gallery section (no fake videos), and
+restyled auth pages on the existing §6.2 tokens. Tier 1 motion
+only (CSS fades/slides, 150/300/600ms, 60ms stagger,
+prefers-reduced-motion respected) — no GSAP, tilt, parallax,
+marquee or confetti. No auth logic, API route, validation,
+domain rule or migration was changed by the UI pass, and it was
+NOT pushed or deployed.
+
 ## What Phase 1 deliberately does NOT do
 
 - No GitHub push, no Netlify/Vercel deploy, no migration run

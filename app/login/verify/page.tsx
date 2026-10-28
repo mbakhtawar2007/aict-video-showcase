@@ -43,7 +43,7 @@ function VerifyForm() {
   }
 
   return (
-    <section className="card">
+    <section className="card auth-card">
       <p className="eyebrow">AICT &middot; Phase 1</p>
       <h1>Enter your code</h1>
       <p className="lede">
@@ -54,6 +54,7 @@ function VerifyForm() {
         <label htmlFor="code">6-digit code</label>
         <input
           id="code"
+          className="input"
           type="text"
           inputMode="numeric"
           autoComplete="one-time-code"
@@ -62,7 +63,7 @@ function VerifyForm() {
           onChange={(event) => setCode(event.target.value)}
           required
         />
-        <button className="button" type="submit" disabled={busy}>
+        <button className="btn-primary" type="submit" disabled={busy}>
           {busy ? "Verifying…" : "Verify and sign in"}
         </button>
       </form>
@@ -77,7 +78,7 @@ function VerifyForm() {
 
 export default function VerifyPage() {
   return (
-    <main className="page">
+    <main className="page auth-page">
       <Suspense>
         <VerifyForm />
       </Suspense>

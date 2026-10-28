@@ -5,7 +5,8 @@
 /*
  * Design tokens — Spec v1.1 §6.2 ("Cinematic Neon Studio").
  * Dark-first. Never pure-white text on pure-black:
- * off-white #EDEDF5 on #0B0B14.
+ * off-white #EDEDF5 on #0B0B14. Token colours are unchanged
+ * by the UI pass; only reusable components were added below.
  */
 :root {
   --bg-dark: #0b0b14;
@@ -41,18 +42,35 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background: var(--bg-dark);
   color: var(--ink);
-  font-family: Inter, system-ui, sans-serif;
+  font-family: var(--font-inter, Inter, system-ui, sans-serif);
   line-height: 1.5;
 }
 
 h1,
-h2 {
-  font-family: "Space Grotesk", system-ui, sans-serif;
+h2,
+h3 {
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
   line-height: 1.15;
+  overflow-wrap: break-word;
+}
+
+a {
+  color: var(--primary-cyan);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--primary-cyan);
+  outline-offset: 2px;
 }
 
 code {
@@ -63,50 +81,158 @@ code {
   overflow-wrap: anywhere;
 }
 
-/* Phase 0 placeholder page only — replaced by real pages in later phases. */
+/* ---- Layout shell: navbar, main, footer ---- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(11, 11, 20, 0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.nav-inner,
+.footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink);
+  text-decoration: none;
+  min-width: 0;
+}
+
+.nav-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  color: #fff;
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.nav-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  min-width: 0;
+}
+
+.nav-brand-name {
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-brand-sub {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 4px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-links a:hover {
+  color: var(--primary-cyan);
+}
+
+.site-main {
+  min-height: 60vh;
+}
+
+.footer {
+  border-top: 1px solid var(--surface-border);
+  margin-top: var(--space-16);
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.footer-title {
+  margin: 0;
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-weight: 700;
+}
+
+.footer-note {
+  margin: 0;
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.footer-links {
+  margin: var(--space-2) 0 0;
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* ---- Page container (shared by home + auth) ---- */
+
 .page {
-  max-width: 880px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: var(--space-12) var(--space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-8);
 }
 
-.hero {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
+.home-page {
+  gap: var(--space-16);
 }
 
-.eyebrow {
-  margin: 0;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-size: 13px;
-  opacity: 0.8;
+.page.auth-page {
+  max-width: 560px;
 }
 
-.gradient-text {
-  margin: 0;
-  font-family: "Space Grotesk", system-ui, sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  background: linear-gradient(
-    90deg,
-    var(--primary-violet),
-    var(--primary-cyan)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.lede {
-  margin: 0;
-  font-size: 17px;
-  opacity: 0.9;
-}
+/* ---- Reusable components ---- */
 
 .card {
   background: var(--surface);
@@ -125,7 +251,264 @@ code {
   gap: var(--space-2);
 }
 
-/* Phase 1 forms — plain, high-contrast, token-based. */
+.auth-card {
+  width: 100%;
+}
+
+.btn-primary,
+.btn-secondary,
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-primary,
+.button {
+  border: none;
+  background: linear-gradient(
+    90deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  color: #fff;
+}
+
+.btn-secondary {
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover,
+.button:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.btn-primary:disabled,
+.button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+.input {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border-radius: var(--radius-input);
+  border: 1px solid var(--surface-border);
+  background: var(--bg-dark);
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-border);
+  background: var(--surface);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.pill-live {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+/* ---- Hero (home) ---- */
+
+.hero-new {
+  padding: var(--space-12) 0 var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 820px;
+}
+
+.hero-badge,
+.eyebrow {
+  margin: 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-cyan);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(40px, 8vw, 72px);
+  line-height: 1.05;
+}
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-lede,
+.lede {
+  margin: 0;
+  font-size: 18px;
+  opacity: 0.92;
+  max-width: 680px;
+}
+
+.hero-note {
+  margin: 0;
+  font-size: 15px;
+  opacity: 0.8;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-top: var(--space-2);
+}
+
+/* Legacy hero classes kept for compatibility; home now uses .hero-new. */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ---- Home sections ---- */
+
+.section-lede {
+  margin: 0 0 var(--space-6);
+  opacity: 0.85;
+  max-width: 680px;
+}
+
+.steps {
+  list-style: none;
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.step-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.step-card h3,
+.decision-card h3,
+.gallery-card h3 {
+  margin: 0;
+}
+
+.step-card p,
+.decision-card p,
+.gallery-card p {
+  margin: 0;
+  opacity: 0.88;
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-violet),
+    var(--primary-cyan)
+  );
+  color: #fff;
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-weight: 700;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.gallery-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.gallery-thumb {
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 0.35),
+    rgba(34, 211, 238, 0.25)
+  );
+  border: 1px dashed var(--surface-border);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+}
+
+.decision-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.notice-card {
+  max-width: 820px;
+}
+
+/* ---- Forms (Phase 1, logic unchanged) ---- */
+
 .form {
   display: flex;
   flex-direction: column;
@@ -138,7 +521,8 @@ code {
   font-weight: 600;
 }
 
-.form input {
+.form input,
+.input {
   width: 100%;
   padding: 12px 14px;
   border-radius: var(--radius-input);
@@ -148,29 +532,10 @@ code {
   font-size: 16px;
 }
 
-.form input:focus {
+.form input:focus,
+.input:focus {
   outline: 2px solid var(--primary-cyan);
   outline-offset: 2px;
-}
-
-.button {
-  padding: 12px 20px;
-  border: none;
-  border-radius: var(--radius-pill);
-  background: linear-gradient(
-    90deg,
-    var(--primary-violet),
-    var(--primary-cyan)
-  );
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.button:disabled {
-  opacity: 0.6;
-  cursor: wait;
 }
 
 .notice {
@@ -192,10 +557,68 @@ code {
   display: flex;
   gap: var(--space-4);
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .link-row a {
   color: var(--primary-cyan);
+}
+
+.profile-rows {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.profile-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--surface-border);
+  flex-wrap: wrap;
+}
+
+.profile-row dt {
+  opacity: 0.8;
+}
+
+.profile-row dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* ---- Tier 1 motion only: simple fades/slides, Spec §7.1 ----
+ * Durations: 150ms hover, 300ms transitions, 600ms entrances.
+ * Stagger: 60ms per section via .anim-delay-1/.anim-delay-2.
+ * No GSAP, no parallax, no tilt, no marquee, no confetti (Tier 2).
+ */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-up {
+  animation: fade-up 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.anim-delay-1 {
+  animation-delay: 60ms;
+}
+
+.anim-delay-2 {
+  animation-delay: 120ms;
 }
 
 /*
@@ -211,5 +634,47 @@ code {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Responsive: mobile-first, Spec §8 ----
+ * Mobile 0–639px: 1 column, full-width CTAs/inputs.
+ * Tablet 640–1023px: 2 columns for grids.
+ * Desktop 1024px+: 3 columns, max width 1120px (1440px cap in spec).
+ */
+@media (max-width: 639px) {
+  .page {
+    padding: var(--space-8) var(--space-4);
+  }
+
+  .hero-new {
+    padding-top: var(--space-8);
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    flex: 1 1 100%;
+  }
+
+  .steps,
+  .gallery-grid,
+  .decision-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-brand-name {
+    font-size: 15px;
+  }
+
+  .nav-links {
+    gap: var(--space-3);
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .steps,
+  .gallery-grid,
+  .decision-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

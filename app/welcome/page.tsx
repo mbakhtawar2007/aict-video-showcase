@@ -65,8 +65,8 @@ export default function WelcomePage() {
 
   if (checking) {
     return (
-      <main className="page">
-        <section className="card">
+      <main className="page auth-page">
+        <section className="card auth-card">
           <p>Checking your profile…</p>
         </section>
       </main>
@@ -74,8 +74,8 @@ export default function WelcomePage() {
   }
 
   return (
-    <main className="page">
-      <section className="card">
+    <main className="page auth-page">
+      <section className="card auth-card">
         <p className="eyebrow">AICT &middot; Phase 1</p>
         <h1>Welcome — finish your profile</h1>
         <p className="lede">
@@ -86,6 +86,7 @@ export default function WelcomePage() {
           <label htmlFor="username">Username</label>
           <input
             id="username"
+            className="input"
             type="text"
             placeholder="e.g. ahmed_2024"
             value={username}
@@ -95,6 +96,7 @@ export default function WelcomePage() {
           <label htmlFor="full_name">Full name</label>
           <input
             id="full_name"
+            className="input"
             type="text"
             value={fullName}
             onChange={(event) => setFullName(event.target.value)}
@@ -103,12 +105,13 @@ export default function WelcomePage() {
           <label htmlFor="class_section">Class section (optional)</label>
           <input
             id="class_section"
+            className="input"
             type="text"
             placeholder="e.g. BS-CS 3A"
             value={classSection}
             onChange={(event) => setClassSection(event.target.value)}
           />
-          <button className="button" type="submit" disabled={busy}>
+          <button className="btn-primary" type="submit" disabled={busy}>
             {busy ? "Saving…" : "Save and continue"}
           </button>
         </form>

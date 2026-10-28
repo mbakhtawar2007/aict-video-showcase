@@ -48,8 +48,8 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="page">
-      <section className="card">
+    <main className="page auth-page">
+      <section className="card auth-card">
         <p className="eyebrow">AICT &middot; Phase 1</p>
         <h1>Sign in</h1>
         <p className="lede">
@@ -64,6 +64,7 @@ export default function LoginPage() {
           <label htmlFor="email">University email</label>
           <input
             id="email"
+            className="input"
             type="email"
             autoComplete="email"
             placeholder="name@duet.edu.pk"
@@ -71,7 +72,7 @@ export default function LoginPage() {
             onChange={(event) => setEmail(event.target.value)}
             required
           />
-          <button className="button" type="submit" disabled={busy}>
+          <button className="btn-primary" type="submit" disabled={busy}>
             {busy ? "Sending…" : "Send code"}
           </button>
         </form>
