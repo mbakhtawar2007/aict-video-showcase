@@ -1,6 +1,7 @@
 # AICT AI Video Showcase & Voting Website
 
-**Status: Phase 1 built locally, students only — NOT pushed, NOT
+**Status: Phase 1 built locally, teachers and students on
+`@duet.edu.pk` (domain change 2026-10-28) — NOT pushed, NOT
 deployed, NO live database yet.** Phase 0 is on GitHub (`main` @
 `62df5745`); Phase 1 below is local only, pending a human review
 checkpoint before any push or deploy. Work proceeds phase by phase.
@@ -18,12 +19,14 @@ as overridden for video by
   server Vercel, Supabase backend. This Phase 1 build is LOCAL
   ONLY and stays as one Next.js app with API routes; no hosting
   config was changed for a deploy.
-- **Students:** `students.duet.edu.pk` only, exact match,
+- **Teachers and students:** `duet.edu.pk` only, exact match,
   `allow_subdomains = false`, no `+tag` aliases. Login hint:
-  `name@students.duet.edu.pk`.
-- **Teachers / admins:** `email_allowlist` only, role `admin`, seeded
-  by a human — never self-service. Teacher addresses on the parent
-  `duet.edu.pk` do NOT pass on the student domain alone.
+  `name@duet.edu.pk`. (Domain change 2026-10-28, superseding the
+  earlier `students.duet.edu.pk` rule; that subdomain is now
+  rejected.)
+- **Teachers / admins:** distinguished ONLY by `email_allowlist`
+  role `admin`, seeded by a human — never self-service, never by
+  a separate domain. Everyone else on `duet.edu.pk` is a student.
 - **Roster mode:** OFF. A student does not also need an allowlist row.
   Switching to roster-only later is a separate decision and needs the
   full class roster CSV.
@@ -66,7 +69,7 @@ need a human-owned live service and are NOT done in this scaffold.
 - [ ] [live] **New Supabase project** — separate from GreenKarachi.
   Create it by a human; this scaffold contains no project ref.
 - [ ] [live] **Private `videos` Storage bucket + signed-URL test** —
-  with a real `students.duet.edu.pk` account, after the project exists.
+  with a real `duet.edu.pk` account, after the project exists.
 - [design] **MP4 validation design (for Phase 1/2 implementation):**
   1. Client checks file type and size before upload (MP4, ≤ 50 MB).
   2. Server re-checks MIME type AND magic bytes after upload; a

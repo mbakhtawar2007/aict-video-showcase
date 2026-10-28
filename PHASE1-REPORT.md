@@ -1,4 +1,17 @@
-# AICT Phase 1 Report — built locally, students only
+# AICT Phase 1 Report — built locally, teachers and students on @duet.edu.pk
+
+**AMENDMENT 2026-10-28 — domain change (user decision, supersedes
+the original Phase 1 domain): the single allowed university domain
+is now `duet.edu.pk` for BOTH teachers and students, exact match,
+`allow_subdomains=false`, no `+tag` aliases. Teachers are
+distinguished ONLY by `email_allowlist` role `admin`; students
+default to student. `@students.duet.edu.pk` is now REJECTED as a
+subdomain. The body below has been updated to the new domain;
+the original Phase 1 run's verification (which used the old
+domain) is superseded by the re-run in the Verification section.
+`PHASE0-REPORT.md` is left untouched as the Phase 0 historical
+record — its `students.duet.edu.pk` lines are superseded by this
+amendment.**
 
 **Status: LOCAL ONLY. NOT pushed to GitHub, NOT deployed to Netlify
 or Vercel, NO migration run against any live database, NO real
@@ -8,12 +21,13 @@ Phase 0 is on GitHub (`mbakhtawar2007/aict-video-showcase`, `main` @
 `62df5745`). Phase 1 below lives only in `~/workspace/aict-video-showcase/`
 until a human review checkpoint approves a push/deploy.
 
-## Scope (spec §5.1, §4.2–4.3, Appendix A.1, students only)
+## Scope (spec §5.1, §4.2–4.3, Appendix A.1, teachers and students on @duet.edu.pk)
 
 - Passwordless OTP only: no passwords, no social login.
-- Students only on `students.duet.edu.pk`, exact match,
+- Teachers and students on `duet.edu.pk`, exact match,
   `allow_subdomains=false`, no `+tag` aliases, `roster_mode=false`,
-  `public_browsing=false`.
+  `public_browsing=false`. Role comes from `email_allowlist`
+  (admin) or defaults to student — never from the domain.
 - **Teachers skipped (user decision 2026-10-28):** migration 0002
   deletes the two placeholder teacher rows from 0001 and seeds no
   teacher/admin row. Teacher/admin accounts are added later, when
@@ -25,9 +39,10 @@ until a human review checkpoint approves a push/deploy.
 
 ## Files added
 
-- `lib/email.ts` — pure student-domain rules: trim/lowercase,
+- `lib/email.ts` — pure university-domain rules: trim/lowercase,
   exactly one `@`, no `+` in local part, domain must equal
-  `students.duet.edu.pk` (subdomains and lookalikes rejected).
+  `duet.edu.pk` (subdomains — including `students.duet.edu.pk` —
+  and lookalikes rejected). Domain check only; role is separate.
   Also `isPlaceholderSupabaseEnv()`.
 - `lib/supabase/client.ts` — browser client via `@supabase/ssr`.
 - `lib/supabase/server.ts` — server client, HTTP-only cookie sessions.
@@ -117,10 +132,15 @@ until a human review checkpoint approves a push/deploy.
 
 - `npm install` — passed (12 packages added: Supabase + Zod).
 - `npm test` (`node scripts/test-email-rules.mjs`) — **14/14 pass,
-  0 fail**. Cases include: valid student address, case/whitespace
-  normalization, `+tag` rejection, parent `duet.edu.pk` rejection,
-  subdomain rejection, lookalike-domain rejection, malformed
-  addresses, and both placeholder teacher addresses rejected.
+  0 fail** (re-run after the 2026-10-28 domain change; the
+  original run under `students.duet.edu.pk` is superseded).
+  Cases include: valid `duet.edu.pk` address, case/whitespace
+  normalization, `+tag` rejection, `students.duet.edu.pk`
+  rejection (now a subdomain), other-subdomain rejection,
+  lookalike-domain rejection, malformed addresses, and both
+  placeholder teacher addresses PASSING the domain check only
+  (their admin role is an allowlist matter, and migration 0002
+  still deletes those placeholder rows).
   (The test imports the real `lib/email.ts` implementation.)
 - `npm run typecheck` (`tsc --noEmit`) — **exit 0**.
 - `npm run build` (Next.js 14.2.35) — **exit 0**. Routes built:
@@ -132,8 +152,9 @@ until a human review checkpoint approves a push/deploy.
 - Local production server check (`next start -p 3101`, placeholder
   env, no live project): `GET /api/health` → `{"ok":true,
   "service":"aict-video-showcase"}`; `POST /api/auth/request-code`
-  with `ali@duet.edu.pk` → error "Only students.duet.edu.pk
-  addresses can sign in."; same route with a student address →
+  with `ali@students.duet.edu.pk` → error "Only duet.edu.pk
+  addresses can sign in."; same route with a `duet.edu.pk`
+  address →
   `{ok:true, configured:false, message:"Supabase is not configured
   yet (placeholder env). No code was sent."}`; `/login` page
   renders with the AICT title.
@@ -192,13 +213,15 @@ until a human review checkpoint approves a push/deploy.
 3. Register `hook_restrict_signup` as the Before User Created hook.
 4. Confirm Auth email-OTP (6-digit code) templates are enabled.
 5. Set up custom SMTP (SPF/DKIM/DMARC) and test delivery to a
-   real `students.duet.edu.pk` inbox.
+   real `duet.edu.pk` inbox.
 6. Set server env on Vercel (and public env on Netlify for the
    frontend): real Supabase URL/anon key, service-role key
    (server only), Turnstile keys if enabled.
 7. When real teacher emails arrive, insert them into
    `email_allowlist` with role `admin` — do not re-add the
-   placeholder rows, do not add a `duet.edu.pk` domain row.
+   placeholder rows. The domain row is already `duet.edu.pk`
+   (2026-10-28 change); do not add a `students.duet.edu.pk`
+   domain row or any subdomain row.
 8. Only then: review checkpoint → push Phase 1 → deploy
    frontend (Netlify) and server (Vercel) → live sign-in test
    with a real student account.

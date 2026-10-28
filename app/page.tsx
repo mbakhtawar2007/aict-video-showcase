@@ -24,8 +24,9 @@ export default function HomePage() {
             Postgres / Auth.
           </li>
           <li>
-            Students: <code>@students.duet.edu.pk</code> only, exact match,
-            no subdomains, no <code>+tag</code> aliases.
+            Teachers and students: <code>@duet.edu.pk</code> only, exact
+            match, no subdomains, no <code>+tag</code> aliases. Role
+            (admin vs student) comes from the allowlist, not the domain.
           </li>
           <li>
             Teachers / admins: SKIPPED FOR NOW (2026-10-28 decision).

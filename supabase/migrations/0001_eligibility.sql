@@ -9,15 +9,19 @@
 --  * NEVER run this against GreenKarachi or any other existing project.
 --  * Replace the placeholder teacher rows below with real, lowercase
 --    teacher addresses before running. Delete placeholder rows.
---  * Students are NOT listed in email_allowlist: any lowercase
---    @students.duet.edu.pk address passes via the domain row.
+--  * Teachers and students are NOT distinguished by domain: any
+--    lowercase @duet.edu.pk address passes via the domain row.
+--    Role comes from email_allowlist (admin) or defaults to
+--    student. (Domain change 2026-10-28: this supersedes the
+--    earlier students.duet.edu.pk domain.)
 --
 -- Locked rules encoded here:
---  * Student domain: students.duet.edu.pk, exact match only,
+--  * University domain: duet.edu.pk, exact match only,
 --    allow_subdomains = false, no +tag aliases (enforced by the
 --    Phase 1 auth hook, not by this table alone).
 --  * Teachers/admins: email_allowlist only, role = 'admin',
---    never self-service.
+--    never self-service. Teachers share the duet.edu.pk domain
+--    with students; there is no separate teacher domain.
 --  * Roster mode OFF: a student does NOT also need an allowlist row.
 
 create table if not exists public.allowed_email_domains (
@@ -46,9 +50,11 @@ alter table public.allowed_email_domains enable row level security;
 alter table public.email_allowlist enable row level security;
 alter table public.settings enable row level security;
 
--- Seed: student domain (exact match only).
+-- Seed: university domain for both teachers and students
+-- (exact match only; students.duet.edu.pk is a subdomain and
+-- therefore does NOT pass when allow_subdomains = false).
 insert into public.allowed_email_domains (domain, allow_subdomains, active)
-values ('students.duet.edu.pk', false, true)
+values ('duet.edu.pk', false, true)
 on conflict (domain) do update
   set allow_subdomains = excluded.allow_subdomains,
       active = excluded.active;

@@ -1,26 +1,37 @@
-// Phase 1 unit test for lib/email.ts (student-domain rules).
+// Phase 1 unit test for lib/email.ts (university-domain rules).
 // Run: node scripts/test-email-rules.mjs
 // Uses node:test and imports the real implementation (Node 24
 // strips erasable TypeScript). No network, no Supabase, no secrets.
+//
+// Domain rule (2026-10-28 change, superseding students.duet.edu.pk):
+// the single allowed domain is duet.edu.pk for BOTH teachers and
+// students, exact match, allow_subdomains=false, no +tag.
+// IMPORTANT DISTINCTION: this test checks DOMAIN only.
+// teacher1@duet.edu.pk / teacher2@duet.edu.pk therefore PASS the
+// domain check — they are @duet.edu.pk addresses. Whether such an
+// address is an admin is decided separately by email_allowlist
+// role, not by this module, and migration 0002 still deletes
+// those two placeholder rows (they are not real teachers).
 import test from "node:test";
 import assert from "node:assert/strict";
 import { validateStudentEmail, normalizeEmail } from "../lib/email.ts";
 
 const cases = [
   // [input, expected ok, expected email/error fragment]
-  ["ali@students.duet.edu.pk", true, "ali@students.duet.edu.pk"],
-  ["  ALI@Students.DUET.edu.pk  ", true, "ali@students.duet.edu.pk"],
-  ["ali+tag@students.duet.edu.pk", false, "+ alias"],
-  ["ali@duet.edu.pk", false, "students.duet.edu.pk"],
-  ["ali@sub.students.duet.edu.pk", false, "students.duet.edu.pk"],
-  ["ali@students.duet.edu.pk.evil.com", false, "students.duet.edu.pk"],
-  ["ali@students.duet.edu.pk@", false, "valid email"],
-  ["@students.duet.edu.pk", false, "valid email"],
-  ["ali@@students.duet.edu.pk", false, "valid email"],
+  ["ali@duet.edu.pk", true, "ali@duet.edu.pk"],
+  ["  ALI@DUET.edu.pk  ", true, "ali@duet.edu.pk"],
+  ["ali+tag@duet.edu.pk", false, "+ alias"],
+  ["ali@students.duet.edu.pk", false, "Only duet.edu.pk"],
+  ["ali@sub.duet.edu.pk", false, "Only duet.edu.pk"],
+  ["ali@duet.edu.pk.evil.com", false, "Only duet.edu.pk"],
+  ["ali@duet.edu.pk@", false, "valid email"],
+  ["@duet.edu.pk", false, "valid email"],
+  ["ali@@duet.edu.pk", false, "valid email"],
   ["", false, "university email"],
   ["not-an-email", false, "valid email"],
-  ["teacher1@duet.edu.pk", false, "students.duet.edu.pk"],
-  ["teacher2@duet.edu.pk", false, "students.duet.edu.pk"],
+  // Domain passes; role is an allowlist matter, not a domain matter.
+  ["teacher1@duet.edu.pk", true, "teacher1@duet.edu.pk"],
+  ["teacher2@duet.edu.pk", true, "teacher2@duet.edu.pk"],
 ];
 
 for (const [input, ok, fragment] of cases) {

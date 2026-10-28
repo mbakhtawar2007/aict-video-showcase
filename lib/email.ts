@@ -1,20 +1,31 @@
-// AICT Phase 1 — student-email rules (students only, 2026-10-28 decision).
+// AICT Phase 1 — university-email rules (2026-10-28 domain change).
 //
-// Locked rules:
-//  * Students only on students.duet.edu.pk, exact match only.
-//  * allow_subdomains = false, so subdomains of that domain are rejected.
+// Locked rules (supersedes the earlier students.duet.edu.pk rule):
+//  * One university domain for BOTH teachers and students:
+//    duet.edu.pk, exact match only.
+//  * allow_subdomains = false, so subdomains of that domain are
+//    rejected — including students.duet.edu.pk, which is now a
+//    subdomain and is therefore REJECTED.
 //  * No +tag aliases (a '+' anywhere in the local part is rejected).
-//  * roster_mode = false, so no allowlist row is needed for a student.
-//  * Teachers are SKIPPED FOR NOW: there is no teacher/admin path in
-//    this module. Do not add a duet.edu.pk bypass here; teacher/admin
-//    accounts are added later, when real teacher emails arrive.
+//  * roster_mode = false, so no allowlist row is needed to pass the
+//    domain check.
+//  * This module checks DOMAIN only. Teachers vs students are
+//    distinguished separately by email_allowlist role (admin vs
+//    default student), never by domain. There is no separate
+//    teacher domain and no domain bypass in this module.
+//  * Teachers are SKIPPED FOR NOW only in the sense that no real
+//    teacher/admin allowlist rows are seeded yet; a @duet.edu.pk
+//    address passes this domain check regardless of role.
 //
 // This module is pure (no network, no env) so it can be unit-tested
 // without a live Supabase project. The same checks run again on the
 // server in /api/auth/request-code; the client copy is only a hint.
 // The Before User Created hook (migration 0002) is the final guard.
 
-export const STUDENT_DOMAIN = "students.duet.edu.pk";
+export const UNIVERSITY_DOMAIN = "duet.edu.pk";
+
+// Backwards-compatible name for the single allowed domain.
+export const STUDENT_DOMAIN = UNIVERSITY_DOMAIN;
 
 export type EmailCheck =
   | { ok: true; email: string }
@@ -48,10 +59,10 @@ export function validateStudentEmail(raw: string): EmailCheck {
   if (!/^[a-z0-9._%+-]+$/.test(local)) {
     return { ok: false, error: "Please enter a valid email address." };
   }
-  if (domain !== STUDENT_DOMAIN) {
+  if (domain !== UNIVERSITY_DOMAIN) {
     return {
       ok: false,
-      error: `Only ${STUDENT_DOMAIN} addresses can sign in.`,
+      error: `Only ${UNIVERSITY_DOMAIN} addresses can sign in.`,
     };
   }
   return { ok: true, email };

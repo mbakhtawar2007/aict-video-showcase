@@ -15,9 +15,12 @@
 --    (empty) so a human can seed real teacher emails later, and the
 --    profile trigger still copies a role from the allowlist if a row
 --    exists — but with teachers skipped, every Phase 1 sign-up that
---    reaches the trigger is a student-domain sign-up, role 'student'.
---  * Students are NOT in the allowlist: any lowercase
---    @students.duet.edu.pk address passes via the domain row.
+--    reaches the trigger gets role 'student' unless an allowlist
+--    row says otherwise.
+--  * Domain change 2026-10-28: teachers and students share
+--    @duet.edu.pk. Any lowercase @duet.edu.pk address passes via
+--    the domain row; @students.duet.edu.pk is now a rejected
+--    subdomain (allow_subdomains = false).
 
 -- 1. Remove placeholder teacher rows from 0001. Idempotent.
 delete from public.email_allowlist
@@ -187,13 +190,17 @@ drop policy if exists auth_admin_read on public.settings;
 create policy auth_admin_read on public.settings
   for select to supabase_auth_admin using (true);
 
--- 6. Before User Created hook (spec Appendix A.1), students only.
--- Students-domain-only adaptation: the allowlist branch is kept
--- (a future real teacher row would pass), but roster_mode is
--- false and the domain check is exact-match only because the
--- seeded domain row has allow_subdomains = false. The hook reads
--- the row's flag, so a future domain row with subdomains on would
--- allow subdomains — do not add such a row for students.
+-- 6. Before User Created hook (spec Appendix A.1), university
+-- domain only. The allowlist branch is kept (a future real
+-- teacher row would pass, and its role is copied by the profile
+-- trigger), but roster_mode is false and the domain check is
+-- exact-match only because the seeded domain row
+-- ('duet.edu.pk', allow_subdomains = false) is the only domain
+-- row. The hook itself does NOT hardcode any domain: it reads
+-- allowed_email_domains, so @duet.edu.pk passes via that row,
+-- @students.duet.edu.pk fails as a subdomain, and a future
+-- domain row with subdomains on would allow subdomains — do
+-- not add such a row.
 -- INSTALL NOTE: this function alone does nothing on live. A human
 -- must register it in Supabase Dashboard > Authentication > Hooks >
 -- "Before User Created" (Postgres function) after running 0001+0002.
