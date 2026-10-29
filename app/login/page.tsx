@@ -57,8 +57,9 @@ export default function LoginPage() {
           your inbox — no password needed.
         </p>
         <p>
-          Teachers and students: <code>@duet.edu.pk</code> (no +tag
-          aliases, no subdomains).
+          Teachers and students: any address ending in{" "}
+          <code>.duet.edu.pk</code> (for example{" "}
+          <code>name@students.duet.edu.pk</code>) — no +tag aliases.
         </p>
         <form className="form" onSubmit={onSubmit}>
           <label htmlFor="email">University email</label>
@@ -67,7 +68,7 @@ export default function LoginPage() {
             className="input"
             type="email"
             autoComplete="email"
-            placeholder="name@duet.edu.pk"
+            placeholder="name@students.duet.edu.pk"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required

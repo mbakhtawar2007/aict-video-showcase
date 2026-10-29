@@ -1,11 +1,21 @@
-// AICT Phase 1 — university-email rules (2026-10-28 domain change).
+// AICT Phase 1 — university-email rules (2026-10-29 domain change).
 //
-// Locked rules (supersedes the earlier students.duet.edu.pk rule):
-//  * One university domain for BOTH teachers and students:
-//    duet.edu.pk, exact match only.
-//  * allow_subdomains = false, so subdomains of that domain are
-//    rejected — including students.duet.edu.pk, which is now a
-//    subdomain and is therefore REJECTED.
+// Locked rules (supersedes the 2026-10-28 exact-match rule, which
+// rejected real student addresses on students.duet.edu.pk):
+//  * The teacher domain is unknown, so the rule is a SUFFIX rule,
+//    not a single domain: an address passes if and only if its
+//    domain, after lowercasing/trimming, is exactly duet.edu.pk
+//    OR ends with ".duet.edu.pk" (e.g. students.duet.edu.pk, and
+//    any other real DUET subdomain). This matches the Before User
+//    Created hook in migration 0002, which honours
+//    allowed_email_domains.allow_subdomains via a suffix check
+//    (right(domain, len+1) = '.' || domain) — so the live hook
+//    needs only the 0004 flag flip (allow_subdomains = true for
+//    the duet.edu.pk row), not a reinstall.
+//  * Still REJECTED: any other domain; lookalikes with no dot
+//    before duet (fakeduet.edu.pk); suffix tricks
+//    (duet.edu.pk.evil.com); unrelated subdomains
+//    (notduet.edu.pk is not a DUET subdomain at all).
 //  * No +tag aliases (a '+' anywhere in the local part is rejected).
 //  * roster_mode = false, so no allowlist row is needed to pass the
 //    domain check.
@@ -59,10 +69,16 @@ export function validateStudentEmail(raw: string): EmailCheck {
   if (!/^[a-z0-9._%+-]+$/.test(local)) {
     return { ok: false, error: "Please enter a valid email address." };
   }
-  if (domain !== UNIVERSITY_DOMAIN) {
+  // Suffix rule: exactly duet.edu.pk, or any subdomain of it.
+  // The leading dot in the endsWith check is what keeps
+  // fakeduet.edu.pk (no dot before duet) rejected.
+  if (
+    domain !== UNIVERSITY_DOMAIN &&
+    !domain.endsWith(`.${UNIVERSITY_DOMAIN}`)
+  ) {
     return {
       ok: false,
-      error: `Only ${UNIVERSITY_DOMAIN} addresses can sign in.`,
+      error: `Only addresses ending in .${UNIVERSITY_DOMAIN} can sign in.`,
     };
   }
   return { ok: true, email };

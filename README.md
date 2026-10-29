@@ -1,7 +1,7 @@
 # AICT AI Video Showcase & Voting Website
 
-**Status: Phase 1 built locally, teachers and students on
-`@duet.edu.pk` (domain change 2026-10-28) — NOT pushed, NOT
+**Status: Phase 1 built locally, teachers and students on any
+address ending in `.duet.edu.pk` (domain change 2026-10-29) — NOT pushed, NOT
 deployed, NO live database yet.** Phase 0 is on GitHub (`main` @
 `62df5745`); Phase 1 below is local only, pending a human review
 checkpoint before any push or deploy. Work proceeds phase by phase.
@@ -19,11 +19,16 @@ as overridden for video by
   server Vercel, Supabase backend. This Phase 1 build is LOCAL
   ONLY and stays as one Next.js app with API routes; no hosting
   config was changed for a deploy.
-- **Teachers and students:** `duet.edu.pk` only, exact match,
-  `allow_subdomains = false`, no `+tag` aliases. Login hint:
-  `name@duet.edu.pk`. (Domain change 2026-10-28, superseding the
-  earlier `students.duet.edu.pk` rule; that subdomain is now
-  rejected.)
+- **Teachers and students:** any address whose domain is exactly
+  `duet.edu.pk` or ends with `.duet.edu.pk` (for example
+  `students.duet.edu.pk`); live DB row uses
+  `allow_subdomains = true` (migration 0004, local file only —
+  run in the Supabase SQL Editor only after user approval). No
+  `+tag` aliases. Login hint: `name@students.duet.edu.pk`.
+  (Domain change 2026-10-29, superseding the 2026-10-28
+  exact-match rule, which rejected real student addresses on
+  `students.duet.edu.pk`. The teacher domain itself is unknown;
+  that is why the rule is a suffix rule, not a single domain.)
 - **Teachers / admins:** distinguished ONLY by `email_allowlist`
   role `admin`, seeded by a human — never self-service, never by
   a separate domain. Everyone else on `duet.edu.pk` is a student.

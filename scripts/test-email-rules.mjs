@@ -3,9 +3,13 @@
 // Uses node:test and imports the real implementation (Node 24
 // strips erasable TypeScript). No network, no Supabase, no secrets.
 //
-// Domain rule (2026-10-28 change, superseding students.duet.edu.pk):
-// the single allowed domain is duet.edu.pk for BOTH teachers and
-// students, exact match, allow_subdomains=false, no +tag.
+// Domain rule (2026-10-29 change, superseding the 2026-10-28
+// exact-match rule): an address passes iff its domain, after
+// lowercasing/trimming, is exactly duet.edu.pk OR ends with
+// ".duet.edu.pk" (students.duet.edu.pk and any other real DUET
+// subdomain pass). Still rejected: other domains, lookalikes
+// without a dot before duet (fakeduet.edu.pk), suffix tricks
+// (duet.edu.pk.evil.com), and +tag aliases.
 // IMPORTANT DISTINCTION: this test checks DOMAIN only.
 // teacher1@duet.edu.pk / teacher2@duet.edu.pk therefore PASS the
 // domain check — they are @duet.edu.pk addresses. Whether such an
@@ -21,9 +25,18 @@ const cases = [
   ["ali@duet.edu.pk", true, "ali@duet.edu.pk"],
   ["  ALI@DUET.edu.pk  ", true, "ali@duet.edu.pk"],
   ["ali+tag@duet.edu.pk", false, "+ alias"],
-  ["ali@students.duet.edu.pk", false, "Only duet.edu.pk"],
-  ["ali@sub.duet.edu.pk", false, "Only duet.edu.pk"],
-  ["ali@duet.edu.pk.evil.com", false, "Only duet.edu.pk"],
+  // New rule: DUET subdomains pass (changed from the 2026-10-28
+  // exact-match rule, which rejected these two).
+  ["ali@students.duet.edu.pk", true, "ali@students.duet.edu.pk"],
+  ["ali@sub.duet.edu.pk", true, "ali@sub.duet.edu.pk"],
+  ["ali@dept.duet.edu.pk", true, "ali@dept.duet.edu.pk"],
+  ["26F-CS-052@Students.duet.edu.pk", true, "26f-cs-052@students.duet.edu.pk"],
+  ["ali+tag@students.duet.edu.pk", false, "+ alias"],
+  // Lookalikes and other domains must NOT pass.
+  ["ali@fakeduet.edu.pk", false, "ending in .duet.edu.pk"],
+  ["ali@notduet.edu.pk", false, "ending in .duet.edu.pk"],
+  ["ali@gmail.com", false, "ending in .duet.edu.pk"],
+  ["ali@duet.edu.pk.evil.com", false, "ending in .duet.edu.pk"],
   ["ali@duet.edu.pk@", false, "valid email"],
   ["@duet.edu.pk", false, "valid email"],
   ["ali@@duet.edu.pk", false, "valid email"],

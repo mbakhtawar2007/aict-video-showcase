@@ -36,8 +36,9 @@ export default function HomePage() {
             </span>
             <h3>Sign in</h3>
             <p>
-              Enter your <code>@duet.edu.pk</code> email and confirm
-              the 6-digit code. No password needed.
+              Enter your university email ending in{" "}
+              <code>.duet.edu.pk</code> and confirm the 6-digit code.
+              No password needed.
             </p>
             <span className="pill pill-live">Phase 1</span>
           </li>
@@ -112,9 +113,10 @@ export default function HomePage() {
           <article className="decision-card">
             <h3>Domain</h3>
             <p>
-              Teachers and students: <code>@duet.edu.pk</code> only,
-              exact match, no subdomains, no <code>+tag</code> aliases.
-              Role comes from the allowlist, not the domain.
+              Teachers and students: any address ending in{" "}
+              <code>.duet.edu.pk</code> (for example{" "}
+              <code>@students.duet.edu.pk</code>); no <code>+tag</code>{" "}
+              aliases. Role comes from the allowlist, not the domain.
             </p>
           </article>
           <article className="decision-card">
