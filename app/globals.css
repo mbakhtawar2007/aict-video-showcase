@@ -797,3 +797,143 @@ code {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ---- UI/UX completion pass (local only, Tier 1 CSS) ---- */
+
+/* Focus: select and textarea were missing from the global rule. */
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-cyan);
+  outline-offset: 2px;
+}
+
+/* No horizontal overflow at small widths; grids/cards can shrink. */
+body {
+  overflow-x: clip;
+}
+
+.page,
+.card,
+.step-card,
+.decision-card,
+.gallery-card,
+.project-row {
+  min-width: 0;
+}
+
+/* Form labels that wrap an input: stack label text above the field
+ * instead of running them together. Direct children only, so the
+ * upload wizard's radio labels inside its fieldset are untouched. */
+.form > label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form fieldset {
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-4);
+}
+
+.form fieldset legend {
+  font-weight: 700;
+  padding: 0 var(--space-2);
+}
+
+.form fieldset label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  margin-right: var(--space-4);
+}
+
+/* File picker: same 44px touch target and card-like field as inputs. */
+input[type="file"] {
+  min-height: 44px;
+  padding: 10px 0;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* Rules checkbox row on the upload review step: inline, not stacked. */
+.checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+  accent-color: var(--primary-cyan);
+}
+
+/* Skeleton shimmer for loading states (Tier 1, CSS only). */
+@keyframes shimmer {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.skeleton {
+  animation: shimmer 600ms cubic-bezier(0.22, 1, 0.36, 1) alternate infinite;
+}
+
+.skeleton-line {
+  height: 16px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  margin: var(--space-3) 0 0;
+}
+
+/* Shared empty state: same card pattern as the rest of the site. */
+.empty-state {
+  border: 1px dashed var(--surface-border);
+  border-radius: var(--radius-card);
+  background: var(--surface);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-top: var(--space-4);
+}
+
+.empty-state h3 {
+  margin: 0;
+}
+
+.empty-state p {
+  margin: 0;
+  opacity: 0.88;
+}
+
+/* Gallery placeholders: plain surface, not a gradient background,
+ * keeping the quiet, professional direction. */
+.gallery-thumb {
+  background: var(--surface);
+}
+
+/* Card hover lift (Tier 1) for home cards and project rows. */
+.step-card,
+.decision-card,
+.gallery-card,
+.project-row {
+  transition: transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.step-card:hover,
+.decision-card:hover,
+.gallery-card:hover,
+.project-row:hover {
+  transform: translateY(-2px);
+}

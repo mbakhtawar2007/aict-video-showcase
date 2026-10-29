@@ -50,7 +50,7 @@ export default function LoginPage() {
   return (
     <main className="page auth-page">
       <section className="card auth-card">
-        <p className="eyebrow">AICT &middot; Phase 1</p>
+        <p className="eyebrow">AICT &middot; Sign-in</p>
         <h1>Sign in</h1>
         <p className="lede">
           Enter your university email. We will send a 6-digit code to

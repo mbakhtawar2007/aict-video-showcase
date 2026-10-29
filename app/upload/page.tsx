@@ -314,7 +314,11 @@ function Wizard() {
   if (checking) {
     return (
       <main className="page">
-        <section className="card"><p>Loading the upload wizard…</p></section>
+        <section className="card">
+          <p className="skeleton">Loading the upload wizard…</p>
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+        </section>
       </main>
     );
   }
@@ -560,7 +564,7 @@ function Wizard() {
                 </ul>
               )}
             </div>
-            <label className="form">
+            <label className="checkbox-row">
               <span>
                 <input
                   type="checkbox"

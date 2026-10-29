@@ -47,7 +47,9 @@ export default function ProfilePage() {
     return (
       <main className="page auth-page">
         <section className="card auth-card">
-          <p>Loading your profile…</p>
+          <p className="skeleton">Loading your profile…</p>
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+          <p className="skeleton skeleton-line" aria-hidden="true" />
         </section>
       </main>
     );
@@ -56,7 +58,7 @@ export default function ProfilePage() {
   return (
     <main className="page auth-page">
       <section className="card auth-card">
-        <p className="eyebrow">AICT &middot; Phase 1</p>
+        <p className="eyebrow">AICT &middot; Profile</p>
         <h1>{profile.full_name ?? profile.username ?? "Your profile"}</h1>
         <dl className="profile-rows">
           <div className="profile-row">

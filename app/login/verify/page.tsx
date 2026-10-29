@@ -44,7 +44,7 @@ function VerifyForm() {
 
   return (
     <section className="card auth-card">
-      <p className="eyebrow">AICT &middot; Phase 1</p>
+      <p className="eyebrow">AICT &middot; Sign-in</p>
       <h1>Enter your code</h1>
       <p className="lede">
         We sent a 6-digit code to <code>{email || "your inbox"}</code>.
@@ -68,6 +68,10 @@ function VerifyForm() {
         </button>
       </form>
       {error && <p className="notice error">{error}</p>}
+      <p className="hero-note">
+        No code yet? Go back to sign-in and request a fresh code —
+        each code expires in 10 minutes and works once.
+      </p>
       <p className="link-row">
         <Link href="/login">Back to sign-in</Link>
         <Link href="/">Home</Link>

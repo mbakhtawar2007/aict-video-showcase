@@ -51,6 +51,7 @@ export default function RootLayout({
             <p className="footer-note">
               Phase 2 — sign-in, projects, upload wizard and dashboard.
               Gallery, playback and voting arrive in later phases.
+              Live sign-in waits on the Vercel server.
             </p>
             <p className="footer-links">
               <a href="https://github.com/mbakhtawar2007/aict-video-showcase">
@@ -59,7 +60,9 @@ export default function RootLayout({
               <a href="https://aict-video-showcase.netlify.app">
                 Netlify site
               </a>
-              <a href="/login">Sign in</a>
+              <Link href="/upload">Upload</Link>
+              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/login">Sign in</Link>
             </p>
           </div>
         </footer>

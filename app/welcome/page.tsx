@@ -67,7 +67,9 @@ export default function WelcomePage() {
     return (
       <main className="page auth-page">
         <section className="card auth-card">
-          <p>Checking your profile…</p>
+          <p className="skeleton">Checking your profile…</p>
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+          <p className="skeleton skeleton-line" aria-hidden="true" />
         </section>
       </main>
     );
@@ -76,7 +78,7 @@ export default function WelcomePage() {
   return (
     <main className="page auth-page">
       <section className="card auth-card">
-        <p className="eyebrow">AICT &middot; Phase 1</p>
+        <p className="eyebrow">AICT &middot; Onboarding</p>
         <h1>Welcome — finish your profile</h1>
         <p className="lede">
           Pick a username, add your full name and class section. You

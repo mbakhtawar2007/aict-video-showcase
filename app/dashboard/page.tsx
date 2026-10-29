@@ -85,7 +85,11 @@ export default function DashboardPage() {
   if (checking) {
     return (
       <main className="page">
-        <section className="card"><p>Loading your dashboard…</p></section>
+        <section className="card">
+          <p className="skeleton">Loading your dashboard…</p>
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+          <p className="skeleton skeleton-line" aria-hidden="true" />
+        </section>
       </main>
     );
   }
@@ -161,9 +165,16 @@ export default function DashboardPage() {
 
         <h2>Projects</h2>
         {projects.length === 0 ? (
-          <p>
-            No projects yet. <Link href="/upload">Upload your first video</Link>.
-          </p>
+          <div className="empty-state">
+            <h3>No projects yet</h3>
+            <p>
+              Your first project starts in the upload wizard — details,
+              an H.264 MP4, characters, then review.
+            </p>
+            <Link href="/upload" className="btn-primary">
+              Upload your first video
+            </Link>
+          </div>
         ) : (
           <ul className="project-list">
             {projects.map((p) => (

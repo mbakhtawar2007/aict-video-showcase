@@ -2,7 +2,7 @@ export default function HomePage() {
   return (
     <main className="page home-page">
       <section className="hero-new fade-up">
-        <p className="hero-badge">AICT &middot; Phase 1</p>
+        <p className="hero-badge">AICT &middot; Phase 2</p>
         <h1 className="hero-title">
           Student videos,
           <br />
@@ -14,8 +14,8 @@ export default function HomePage() {
           public feed — just sign in with your university email.
         </p>
         <p className="hero-note">
-          Phase 1 is sign-in, onboarding and profile only. Upload,
-          gallery and voting arrive in later phases.
+          Sign-in, onboarding, profile, upload and dashboard are built
+          (Phases 1–2). Gallery and voting arrive in later phases.
         </p>
         <div className="hero-actions">
           <a className="btn-primary" href="/login">
@@ -48,9 +48,10 @@ export default function HomePage() {
             <h3>Upload</h3>
             <p>
               Share your AI video as an MP4, with its story, tools and
-              team.
+              team. The wizard and dashboard are built in Phase 2;
+              live use waits on the Vercel server (see below).
             </p>
-            <span className="pill">Coming in Phase 2</span>
+            <span className="pill pill-live">Phase 2</span>
           </li>
           <li className="step-card">
             <span className="step-number" aria-hidden="true">
@@ -160,17 +161,25 @@ export default function HomePage() {
         <h2>What is not live yet</h2>
         <ul>
           <li>
-            No live Supabase project yet — sign-in will report that
-            Supabase is not configured until the project is connected.
+            The Supabase project exists and migrations 0001–0003 are
+            live, with a private <code>videos</code> bucket — but the
+            Vercel server is not deployed with its environment yet,
+            so sign-in and upload cannot run on the live site. Until
+            then the app reports Supabase as not configured instead
+            of pretending a sign-in or upload worked.
           </li>
           <li>No real secrets, keys, or teacher emails in this repo.</li>
           <li>
             No SMTP delivery test yet — that needs a real university
             inbox and a human-owned sending domain.
           </li>
+          <li>
+            No gallery, playback, or voting yet — those are Phases 3
+            and 4, and nothing on this page is a real video.
+          </li>
         </ul>
         <p>
-          See <code>README.md</code> and <code>PHASE1-REPORT.md</code>{" "}
+          See <code>README.md</code> and <code>PHASE2-REPORT.md</code>{" "}
           for the full scope and the human checklist.
         </p>
       </section>
