@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "AICT AI Video Showcase",
   description:
-    "AICT AI Video Showcase & Voting Website. Phase 2: projects, upload wizard and dashboard on top of passwordless sign-in for @duet.edu.pk.",
+    "AICT AI Video Showcase & Voting Website. Phase 3: gallery and watch on top of passwordless sign-in for addresses ending in .duet.edu.pk.",
 };
 
 export default function RootLayout({
@@ -37,6 +37,7 @@ export default function RootLayout({
             </Link>
             <nav className="nav-links" aria-label="Main">
               <Link href="/">Home</Link>
+              <Link href="/explore">Gallery</Link>
               <Link href="/upload">Upload</Link>
               <Link href="/dashboard">Dashboard</Link>
               <Link href="/login">Sign in</Link>
@@ -49,9 +50,8 @@ export default function RootLayout({
           <div className="footer-inner">
             <p className="footer-title">AICT AI Video Showcase</p>
             <p className="footer-note">
-              Phase 2 — sign-in, projects, upload wizard and dashboard.
-              Gallery, playback and voting arrive in later phases.
-              Live sign-in waits on the Vercel server.
+              Phase 3 — gallery and playback are built (local only);
+              voting arrives in Phase 4.
             </p>
             <p className="footer-links">
               <a href="https://github.com/mbakhtawar2007/aict-video-showcase">
@@ -60,6 +60,7 @@ export default function RootLayout({
               <a href="https://aict-video-showcase.netlify.app">
                 Netlify site
               </a>
+              <Link href="/explore">Gallery</Link>
               <Link href="/upload">Upload</Link>
               <Link href="/dashboard">Dashboard</Link>
               <Link href="/login">Sign in</Link>

@@ -2,7 +2,7 @@ export default function HomePage() {
   return (
     <main className="page home-page">
       <section className="hero-new fade-up">
-        <p className="hero-badge">AICT &middot; Phase 2</p>
+        <p className="hero-badge">AICT &middot; Phase 3</p>
         <h1 className="hero-title">
           Student videos,
           <br />
@@ -14,14 +14,15 @@ export default function HomePage() {
           public feed — just sign in with your university email.
         </p>
         <p className="hero-note">
-          Sign-in, onboarding, profile, upload and dashboard are built
-          (Phases 1–2). Gallery and voting arrive in later phases.
+          Sign-in, onboarding, profile, upload, dashboard, gallery
+          and watch are built (Phases 1–3, local only). Voting
+          arrives in Phase 4.
         </p>
         <div className="hero-actions">
           <a className="btn-primary" href="/login">
             Sign in
           </a>
-          <a className="btn-secondary" href="#gallery">
+          <a className="btn-secondary" href="/explore">
             View gallery
           </a>
         </div>
@@ -75,31 +76,15 @@ export default function HomePage() {
       >
         <h2>Gallery</h2>
         <p className="section-lede">
-          The gallery arrives in Phase 3. Nothing here is a real video
-          yet — these slots are placeholders only.
+          The gallery is built in Phase 3: search, filters, sorting
+          and published-video playback. It shows only real published
+          videos — if none are published yet, it says so plainly
+          instead of showing placeholders.
         </p>
-        <div className="gallery-grid">
-          <article className="gallery-card">
-            <div className="gallery-thumb" aria-hidden="true">
-              <span>Coming soon</span>
-            </div>
-            <h3>Gallery slot</h3>
-            <p>Student videos will appear here in Phase 3.</p>
-          </article>
-          <article className="gallery-card">
-            <div className="gallery-thumb" aria-hidden="true">
-              <span>Coming soon</span>
-            </div>
-            <h3>Gallery slot</h3>
-            <p>Student videos will appear here in Phase 3.</p>
-          </article>
-          <article className="gallery-card">
-            <div className="gallery-thumb" aria-hidden="true">
-              <span>Coming soon</span>
-            </div>
-            <h3>Gallery slot</h3>
-            <p>Student videos will appear here in Phase 3.</p>
-          </article>
+        <div className="hero-actions">
+          <a className="btn-primary" href="/explore">
+            Open the gallery
+          </a>
         </div>
       </section>
 
@@ -176,8 +161,9 @@ export default function HomePage() {
             inbox and a human-owned sending domain.
           </li>
           <li>
-            No gallery, playback, or voting yet — those are Phases 3
-            and 4, and nothing on this page is a real video.
+            Gallery and playback are built locally in Phase 3 but not
+            deployed yet; voting is Phase 4. Nothing on this page is
+            a real video.
           </li>
         </ul>
         <p>

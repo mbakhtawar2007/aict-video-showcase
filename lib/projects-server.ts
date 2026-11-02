@@ -14,6 +14,7 @@ export type ProjectRow = {
   description: string | null;
   concept: string | null;
   story: string | null;
+  prompts_notes: string | null;
   genre: string | null;
   tools_used: string[];
   video_path: string | null;
@@ -30,7 +31,43 @@ export type ProjectRow = {
 };
 
 export const PROJECT_SELECT =
-  "id, owner_id, group_id, title, slug, tagline, description, concept, story, genre, tools_used, video_path, video_status, video_size_bytes, duration_seconds, thumbnail_path, status, rules_accepted_at, vote_count, view_count, created_at, updated_at";
+  "id, owner_id, group_id, title, slug, tagline, description, concept, story, prompts_notes, genre, tools_used, video_path, video_status, video_size_bytes, duration_seconds, thumbnail_path, status, rules_accepted_at, vote_count, view_count, created_at, updated_at";
+
+/** Phase 3 gallery card: the ONLY project fields the gallery
+ * API returns. video_path, thumbnail_path (raw Storage path)
+ * and owner_id are deliberately stripped — the client gets a
+ * signed thumbnail_url (when the server can mint one) and a
+ * display name, never a path it could reuse unsigned. */
+export type GalleryProject = {
+  id: string;
+  slug: string;
+  title: string;
+  tagline: string | null;
+  genre: string | null;
+  tools_used: string[];
+  duration_seconds: number | null;
+  vote_count: number;
+  view_count: number;
+  created_at: string;
+  group_id: string | null;
+  group_name: string | null;
+  creator_name: string | null;
+  thumbnail_url: string | null;
+};
+
+export type CharacterRow = {
+  id: string;
+  name: string;
+  role: string | null;
+  description: string | null;
+  sort_order: number;
+};
+
+export type CaptionRow = {
+  id: string;
+  language: string;
+  label: string;
+};
 
 /** True when the signed-in user may edit this project: owner,
  * group member, or admin (via their profiles row). RLS is the
